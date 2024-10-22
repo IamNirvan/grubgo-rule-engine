@@ -6,18 +6,26 @@ import (
 	"net/http"
 
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/config"
+	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/handlers"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
 
 type WebServer struct {
-	Config *config.Config
-	Server *http.Server
+	Config  *config.Config
+	Handler *handlers.Handler
+	Server  *http.Server
 }
 
-func New(config *config.Config) *WebServer {
+type Options struct {
+	Config  *config.Config
+	Handler *handlers.Handler
+}
+
+func New(options *Options) *WebServer {
 	return &WebServer{
-		Config: config,
+		Config:  (*options).Config,
+		Handler: (*options).Handler,
 	}
 }
 
@@ -26,12 +34,7 @@ func (ws *WebServer) Start() error {
 
 	r := gin.Default()
 
-	// TODO: add correct route here to evaluate a rule(s) using a fact
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
+	r.GET("/evaluate/rule", ws.Handler.HandleRuleEvaluationRequest)
 
 	ws.Server = &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", ws.Config.WebServer.Host, ws.Config.WebServer.Port),
