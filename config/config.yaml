@@ -1,0 +1,14 @@
+log:
+  level: debug
+  methods: false
+database:
+  user: postgres
+  password: shalin123
+  host: localhost
+  port: 5432
+  dbname: resource_service
+  sslmode: disable
+web_server:
+  host: localhost 
+  port: 8080
+  timeout: 15
