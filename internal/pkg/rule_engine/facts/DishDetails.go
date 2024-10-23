@@ -32,10 +32,6 @@ func NewDishDetailsFact(dish Dish, customer Customer) *DishDetails {
 	}
 }
 
-// func (dd *DishDetails) IsDishEmpty() bool {
-// 	return dd.Dish == nil
-// }
-
 func (dd *DishDetails) AddResponse(response interface{}) {
 	dd.Responses = append(dd.Responses, response)
 }
@@ -56,4 +52,21 @@ func (dd *DishDetails) StringListsHaveMatchingItem(listA []string, listB []strin
 		}
 	}
 	return foundItem
+}
+
+func (dd *DishDetails) AddResponseComponent() {
+	/*
+		{
+			"type": "component", // Have other types like mail, sms, etc...
+			"payload": {
+				// The content in here will vary depending on the type...
+				// This is for a component...
+				"type": "TAG", // Have other types like pop-up, etc.
+				"status": "NEGATIVE" // Have other statuses like NEURAL and POSITIVE. Can use this to adjust colors, etc..
+				"mainText": "This dish happens to have an ingredient you are allergic to"
+				"secondaryText": null
+			}
+		}
+	*/
+
 }
