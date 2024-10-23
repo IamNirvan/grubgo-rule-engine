@@ -9,6 +9,7 @@ import (
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/rule_engine/library"
 	"github.com/hyperjumptech/grule-rule-engine/ast"
 	log "github.com/sirupsen/logrus"
+	"gorm.io/gorm"
 )
 
 type RuleEngineService interface {
@@ -16,12 +17,14 @@ type RuleEngineService interface {
 }
 
 type RuleEngineServiceV1 struct {
-	Config *config.Config
+	Config   *config.Config
+	Database *gorm.DB
 }
 
-func NewRuleEngineServiceV1(config *config.Config) *RuleEngineService {
+func NewRuleEngineServiceV1(config *config.Config, db *gorm.DB) *RuleEngineService {
 	var service RuleEngineService = &RuleEngineServiceV1{
-		Config: config,
+		Config:   config,
+		Database: db,
 	}
 	return &service
 }

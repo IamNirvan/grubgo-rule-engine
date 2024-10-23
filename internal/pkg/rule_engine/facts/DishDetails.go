@@ -1,5 +1,10 @@
 package facts
 
+import (
+	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/constants"
+	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/models/types"
+)
+
 const (
 	DISH_DETAILS_FACT_ALIAS = "DDF"
 )
@@ -54,19 +59,13 @@ func (dd *DishDetails) StringListsHaveMatchingItem(listA []string, listB []strin
 	return foundItem
 }
 
-func (dd *DishDetails) AddResponseComponent() {
-	/*
-		{
-			"type": "component", // Have other types like mail, sms, etc...
-			"payload": {
-				// The content in here will vary depending on the type...
-				// This is for a component...
-				"type": "TAG", // Have other types like pop-up, etc.
-				"status": "NEGATIVE" // Have other statuses like NEURAL and POSITIVE. Can use this to adjust colors, etc..
-				"mainText": "This dish happens to have an ingredient you are allergic to"
-				"secondaryText": null
-			}
-		}
-	*/
-
+func (dd *DishDetails) AddResponseComponent(componentType string, moodType string, text string) {
+	dd.Responses = append(dd.Responses, &types.RuleEngineResponse{
+		Type: constants.RULE_ENGINE_RESPONSE_TYPE_COMPONENT,
+		Payload: &types.Component{
+			Type: componentType,
+			Mood: moodType,
+			Text: text,
+		},
+	})
 }

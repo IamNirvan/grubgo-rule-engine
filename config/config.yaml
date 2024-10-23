@@ -6,9 +6,9 @@ database:
   password: shalin123
   host: localhost
   port: 5432
-  dbname: resource_service
+  dbname: grubgo
   sslmode: disable
 web_server:
   host: localhost 
-  port: 8080
+  port: 8081
   timeout: 15

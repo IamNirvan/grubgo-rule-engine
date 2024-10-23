@@ -8,6 +8,7 @@ import (
 
 	grubgo "github.com/IamNirvan/grubgo-rule-engine/internal/app"
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/config"
+	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/data"
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/handlers"
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/service"
 	webserver "github.com/IamNirvan/grubgo-rule-engine/internal/pkg/web_server"
@@ -21,9 +22,13 @@ func main() {
 
 	config := config.LoadConfig()
 
+	// Initialize database instance
+	database := data.New(config)
+
 	// Inialize service instance
 	service := service.New(&service.Options{
-		Config: config,
+		Config:   config,
+		Database: database,
 	})
 
 	// Initialize handler instance
@@ -39,7 +44,7 @@ func main() {
 	})
 
 	// Create instance of app
-	app := grubgo.New(config, webServer)
+	app := grubgo.New(config, webServer, database)
 	if err := app.Start(ctx); err != nil {
 		log.Fatalf("failed to run application: %s", err)
 	}

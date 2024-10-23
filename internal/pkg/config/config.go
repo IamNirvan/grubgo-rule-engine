@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -94,4 +95,15 @@ func LoadConfig() *Config {
 	log.SetReportCaller(config.Log.Methods)
 
 	return config
+}
+
+func (c *Config) GetConnectionString() string {
+	return fmt.Sprintf("user=%s password=%s host=%s port=%d dbname=%s sslmode=%s",
+		c.Database.User,
+		c.Database.Password,
+		c.Database.Host,
+		c.Database.Port,
+		c.Database.Dbname,
+		c.Database.Sslmode,
+	)
 }

@@ -4,25 +4,32 @@ import (
 	"context"
 
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/config"
+	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/rule_engine/library"
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/util"
 	webserver "github.com/IamNirvan/grubgo-rule-engine/internal/pkg/web_server"
 	"golang.org/x/sync/errgroup"
+	"gorm.io/gorm"
 )
 
 type Grubgo struct {
 	Config    *config.Config
 	WebServer *webserver.WebServer
+	Database  *gorm.DB
 }
 
-func New(config *config.Config, webServer *webserver.WebServer) *Grubgo {
+func New(config *config.Config, webServer *webserver.WebServer, db *gorm.DB) *Grubgo {
 	return &Grubgo{
 		Config:    config,
 		WebServer: webServer,
+		Database:  db,
 	}
 }
 
 func (g *Grubgo) Start(ctx context.Context) error {
 	errorGroup, ctx := errgroup.WithContext(ctx)
+
+	// Load all the rules from the database
+	library.New(g.Database)
 
 	// Create list of disposable resources
 	disposables := []util.Disposable{g.WebServer}

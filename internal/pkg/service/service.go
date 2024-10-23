@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/config"
+	"gorm.io/gorm"
 )
 
 var (
@@ -21,13 +22,14 @@ type Service struct {
 }
 
 type Options struct {
-	Config *config.Config
+	Config   *config.Config
+	Database *gorm.DB
 }
 
 func New(options *Options) *Service {
 	ServiceOnce.Do(func() {
 		instance = &Service{
-			RuleEngineService: NewRuleEngineServiceV1((*options).Config),
+			RuleEngineService: NewRuleEngineServiceV1((*options).Config, (*options).Database),
 		}
 	})
 	return instance
