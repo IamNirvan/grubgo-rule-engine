@@ -31,7 +31,7 @@ func NewRuleEngineServiceV1(config *config.Config, db *gorm.DB) *RuleEngineServi
 
 func (rs *RuleEngineServiceV1) EvaluateRule(fact *facts.DishDetails, ctx context.Context) (*[]interface{}, *ServiceError) {
 	// Get instance of library
-	lib := library.New()
+	lib := library.New(rs.Database)
 
 	// Fetch knowledge base
 	knowledgeBase, knowledgeBaseErr := lib.NewKnowledgeBaseInstance(library.KNOWLEDGE_BASE_NAME, library.VERSION)
@@ -58,6 +58,7 @@ func (rs *RuleEngineServiceV1) EvaluateRule(fact *facts.DishDetails, ctx context
 
 	// Fetch the response from the fact
 	response := &fact.Responses
+	log.Debugf("response: %v", response)
 
 	return response, nil
 }

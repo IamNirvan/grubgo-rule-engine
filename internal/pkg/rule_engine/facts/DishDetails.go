@@ -1,6 +1,8 @@
 package facts
 
 import (
+	"strings"
+
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/constants"
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/models/types"
 )
@@ -46,26 +48,34 @@ func (dd *DishDetails) IsResponseEmpty() bool {
 }
 
 func (dd *DishDetails) StringListsHaveMatchingItem(listA []string, listB []string) bool {
-	var foundItem bool = false
-
-	for i := range listA {
-		for x := range listB {
-			if listA[i] == listB[x] {
-				foundItem = true
-				break
+	for _, itemA := range listA {
+		for _, itemB := range listB {
+			if strings.EqualFold(itemA, itemB) {
+				return true
 			}
 		}
 	}
-	return foundItem
+	return false
 }
 
-func (dd *DishDetails) AddResponseComponent(componentType string, moodType string, text string) {
+func (dd *DishDetails) AddResponseComponent(componentType string, status string, text string) {
 	dd.Responses = append(dd.Responses, &types.RuleEngineResponse{
 		Type: constants.RULE_ENGINE_RESPONSE_TYPE_COMPONENT,
 		Payload: &types.Component{
-			Type: componentType,
-			Mood: moodType,
-			Text: text,
+			Type:   componentType,
+			Status: status,
+			Text:   text,
 		},
 	})
 }
+
+// func (dd *DishDetails) AddResponseComponent(componentType string, moodType string, text string) {
+// 	dd.Responses = append(dd.Responses, &types.RuleEngineResponse{
+// 		Type: constants.RULE_ENGINE_RESPONSE_TYPE_COMPONENT,
+// 		Payload: &types.Component{
+// 			Type: componentType,
+// 			Mood: moodType,
+// 			Text: text,
+// 		},
+// 	})
+// }
