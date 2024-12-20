@@ -34,7 +34,8 @@ func (ws *WebServer) Start() error {
 
 	r := gin.Default()
 
-	r.GET("/evaluate/rule", ws.Handler.HandleRuleEvaluationRequest)
+	r.POST("/v1/evaluate/rule", ws.Handler.HandleRuleEvaluationRequest)
+	r.GET("/v1/specification", ws.Handler.HandleGetSpec)
 
 	ws.Server = &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", ws.Config.WebServer.Host, ws.Config.WebServer.Port),

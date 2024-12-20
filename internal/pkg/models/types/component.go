@@ -14,8 +14,14 @@ package types
 	}
 */
 
+// type Component struct {
+// 	Type string `json:"type"`
+// 	Mood string `json:"mood"`
+// 	Text string `json:"text"`
+// }
+
 type Component struct {
-	Type string `json:"type"`
-	Mood string `json:"mood"`
-	Text string `json:"text"`
+	Type   string `json:"type"`
+	Status string `json:"status"`
+	Text   string `json:"text"`
 }

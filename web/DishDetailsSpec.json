@@ -1,0 +1,65 @@
+{
+  "fact": {
+    "name": "DishDetails",
+    "properties": {
+      "dish": {
+        "id": "number",
+        "name": "string",
+        "description": "string",
+        "ingredients": "[]string"
+      },
+      "customer": {
+        "id": "number",
+        "firstName": "string",
+        "lastName": "string",
+        "allergens": "[]string"
+      }
+    }
+  },
+  "methods": [
+    {
+      "name": "StringListsHaveMatchingItem",
+      "parameters": [
+        {
+          "name": "listA",
+          "type": "[]string"
+        },
+        {
+          "name": "listB",
+          "type": "[]string"
+        }
+      ],
+      "return": ["bool"]
+    },
+    {
+      "name": "AddResponseComponent",
+      "parameters": [
+        {
+          "name": "componentType",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "name": "text",
+          "type": "string"
+        }
+      ],
+      "return": []
+    }
+  ],
+  "types": [
+    {
+      "name": "StatusTypes",
+      "type": "constants",
+      "properties": ["FATAL", "WARNING", "INFO"]
+    },
+    {
+      "name": "ComponentTypes",
+      "type": "constants",
+      "properties": ["TAG", "SUGGESTION"]
+    }
+  ]
+}

@@ -1,6 +1,10 @@
 package handlers
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"path/filepath"
 	"sync"
 
 	"github.com/IamNirvan/grubgo-rule-engine/internal/pkg/config"
@@ -48,4 +52,21 @@ func (h *Handler) HandleRuleEvaluationRequest(c *gin.Context) {
 	}
 
 	c.JSON(200, response)
+}
+
+func (h *Handler) HandleGetSpec(c *gin.Context) {
+	filePath := filepath.Join("web", "DishDetailsSpec.json")
+	fileContent, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read specification file"})
+		return
+	}
+
+	var rules map[string]interface{}
+	if err := json.Unmarshal(fileContent, &rules); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse specification file"})
+		return
+	}
+
+	c.JSON(http.StatusOK, rules)
 }
